@@ -37,7 +37,7 @@ class File_Browser
 {
 
 var $p = '';
-var $root = 'files/';
+var $root = './';
 var $webroot = '';
 var $files = array();
 var $images = array();
