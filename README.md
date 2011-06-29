@@ -13,4 +13,4 @@ Lists files with features:
 Screenshot
 --
 
-<img src="http://media.quilime.com/FIle_Browser.png" />
+<img src="http://media.quilime.com/File_Browser.png" />
