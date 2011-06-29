@@ -36,17 +36,18 @@
 class File_Browser
 {
 
-    var $p = '';
-    var $root = 'files/';
-    var $webroot = '';
-    var $files = array();
-    var $images = array();
-    var $audio = array();
-    var $parent_dir = false;
-    var $thumbs = true;
-    var $inline_audio = true;
-    var $readme_file = 'README';
-    var $max_image_width = 200;
+var $p = '';
+var $root = './';
+var $webroot = '';
+var $files = array();
+var $images = array();
+var $audio = array();
+var $parent_dir = false;
+var $thumbs = true;
+var $inline_audio = true;
+var $readme_file = 'README';
+var $max_image_width = 200;
+
 
 
     function File_Browser($params = array())
