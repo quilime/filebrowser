@@ -36,18 +36,25 @@
 class File_Browser
 {
 
-var $p = '';
-var $root = './';
-var $webroot = '';
-var $files = array();
-var $images = array();
-var $audio = array();
-var $parent_dir = false;
-var $thumbs = true;
-var $inline_audio = true;
-var $readme_file = 'README';
-var $max_image_width = 200;
+    // path
+    var $p                  = '';
+    // file root
+    var $root               = './files/';
+    // web root
+    var $webroot            = '';
+    // files array
+    var $files              = array();
+    // images array
+    var $images             = array();
+    // audio array
+    var $audio              = array();
 
+    //
+    var $parent_dir         = false;
+    var $thumbs             = true;
+    var $inline_audio       = true;
+    var $readme_file        = 'README';
+    var $max_image_width    = 200;
 
 
     function File_Browser($params = array())
@@ -61,17 +68,19 @@ var $max_image_width = 200;
 
 
         if( is_dir($this->root . $this->p) ) {
+
             $allFiles = $this->fileArray($this->root . $this->p, array(), array());
 
-            $files = array();
+            $files   = array();
             $folders = array();
-            $images = array();
-            $audio = array();
+            $images  = array();
+            $audio   = array();
 
             foreach($allFiles as $f) {
-                $f['name'] = $f['type'] == "Folder" ? $f['name'] . '/' : $f['name'];
+
+                $f['name']  = $f['type'] == "Folder" ? $f['name'] . '/' : $f['name'];
                 $f['title'] = $f['name'];
-                $f['href'] = $f['type'] == "Folder" ? "?p=" . $this->p . $f['name'] : $this->root . $this->p . $f['name'];
+                $f['href']  = $f['type'] == "Folder" ? "?p=" . $this->p . $f['name'] : $this->root . $this->p . $f['name'];
                 $f['class'] = $f['type'] == "Folder" ? 'dir' : $f['name'];
 
                 if($f['type'] == "Folder")
@@ -89,24 +98,16 @@ var $max_image_width = 200;
 
                     // create thumbnail with convert
                     $thumb_dims = array(200, 200);
-
-
-
                     $tmp_image = $this->root . $this->p . $f['name'];
                     $thumb = '.t/' . $this->p . $f['name'];
-
                     if(!file_exists($thumb)) {
-
                         $this->mk_dir('.t/' . $this->p);
-
-                    //* resize centered on white
-                    $exec = "/usr/bin/convert \"$tmp_image\" -resize $thumb_dims[0]x$thumb_dims[1]\> \
-                                      -size $thumb_dims[0]x$thumb_dims[1] xc:white +swap -gravity center  -composite \
-                                       \"$thumb\"";
-                    //*/
-
-                    exec($exec, $retval);
-
+                        //* resize centered on white
+                        $exec = "/usr/bin/convert \"$tmp_image\" -resize $thumb_dims[0]x$thumb_dims[1]\> \
+                                          -size $thumb_dims[0]x$thumb_dims[1] xc:white +swap -gravity center  -composite \
+                                           \"$thumb\"";
+                        //*/
+                        exec($exec, $retval);
                     }
 
                     $f['thumb'] = $thumb;

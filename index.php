@@ -1,10 +1,10 @@
 <?php
 
 include 'File_Browser.php';
-
 $filebrowser = new File_Browser( array (
-	'title' => 'title'
-, 	'webroot' => 'http://example.com/'
+	'title' => 'media'
+,   'root'  => './files/'
+, 	'webroot' => 'http://media.quilime.com/'
 ));
 $filebrowser->parent_dir = true;
 
@@ -12,7 +12,7 @@ $filebrowser->parent_dir = true;
 
 <html>
 <head>
-<link rel=StyleSheet href="style.css" TYPE="text/css" />
+<link rel="StyleSheet" href="style.css" TYPE="text/css" />
 <title><?=$filebrowser->title;?>/<?=$filebrowser->p; ?></title>
 
 </head>
