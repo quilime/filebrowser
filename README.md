@@ -1,12 +1,11 @@
-File Browser
+Features
 --
 
-Lists files with features:
-
-- list files and folders seperately
-- generate thumbs and create gallery for images
-- preview audio files
-- easy to customize and instance
+- Generate thumbs and create gallery for images
+- Preview audio files
+- List files and folders seperately
+- Single file for easy including
+- Easy to customize and instance
 - BSD license
 
 
