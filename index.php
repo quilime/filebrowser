@@ -1,9 +1,12 @@
 <?php
 
-include('File_Browser.php');
+include 'File_Browser.php';
 
-$filebrowser = new File_Browser( array ('title' => 'media', 'webroot' => 'http://media.quilime.com/', ) );
-$filebrowser->parent_dir = true;
+$fb = new File_Browser( array (
+    'title' => 'media',
+    'webroot' => 'http://media.quilime.com/'
+));
+$fb->parent_dir = true;
 
 ?>
 
