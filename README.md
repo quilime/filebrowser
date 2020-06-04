@@ -1,3 +1,7 @@
+## Requirements
+
+These scripts have been tested with PHP 7.2.30
+
 ## Media Browser 
 
 - Generate thumbs and create gallery for images
