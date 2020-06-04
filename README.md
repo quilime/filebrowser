@@ -1,5 +1,4 @@
-Features
---
+## Media Browser 
 
 - Generate thumbs and create gallery for images
 - Preview audio files
@@ -8,8 +7,16 @@ Features
 - Easy to customize and instance
 - BSD license
 
+<img src="http://media.quilime.com/Media-Browser.png" />
 
-Screenshot
---
 
-<img src="http://media.quilime.com/File_Browser.png" />
+## File Browser (Directory Lister)
+
+- Classical text-only view with HTML table
+- Sortable by columns
+- List files and folders seperately
+- Single file for easy including
+- Easy to customize and instance
+- BSD license
+
+<img src="http://media.quilime.com/Directory-Lister.png" />

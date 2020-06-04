@@ -25,15 +25,15 @@
  * DAMAGE.
  *
  * @category
- * @package     File_Browser
+ * @package     MediaBrowser
  * @author      Gabriel Dunne <gdunne [at] quilime [dot] com>
  * @copyright   2006-2011 Gabriel Dunne
  * @license     http://www.opensource.org/licenses/bsd-license.php
- * @link        http://quilime.com/library/php/file-browser/
+ * @link        http://quilime.com/library/php/filebrowser/
  */
 
 
-class File_Browser
+class MediaBrowser
 {
 
     // path
@@ -57,7 +57,7 @@ class File_Browser
     var $max_image_width    = 200;
 
 
-    function File_Browser($params = array())
+    function MediaBrowser($params = array())
     {
         $this->p = $this->validate_path($_GET['p']);
         $this->root  = isset($params['root']) ? $params['root'] : $this->root;
@@ -127,7 +127,7 @@ class File_Browser
             $this->audio = $audio;
         }
 
-        $this->breadcrumbs  = '<li><a href="' . $this->webroot . '">' . $this->title . '</a>/</li>';
+        $this->breadcrumbs  = '<li><a href="' . $this->webroot . 'list.php">' . $this->title . '</a>/</li>';
         $this->breadcrumbs .= $this->breadcrumbs( $this->p );
         $this->logo = isset($params['logo']) ? '<img src="' . $params['logo'] . '" />' : false;
         $this->parent_dir = $this->p ? pathinfo($this->p, PATHINFO_DIRNAME) . '/' : false;
@@ -386,4 +386,37 @@ class File_Browser
 
 }
 
+// set options here
+$MediaBrowser = new MediaBrowser( array (
+    'title' => 'media'
+,   'root'  => './'
+,   'webroot' => 'http://media.quilime.com/'
+));
+
+$MediaBrowser->parent_dir = true;
+
 ?>
+
+<html>
+<head>
+<link rel="StyleSheet" href="style.css" TYPE="text/css" />
+<title><?=$MediaBrowser->title;?>/<?=$MediaBrowser->p; ?></title>
+
+</head>
+<body>
+
+    <div id="nav">
+        <div id="logo">
+        <?php echo $MediaBrowser->logo; ?>
+        </div>
+        <ul id="breadcrumbs">
+        <?php echo $MediaBrowser->breadcrumbs; ?>
+        </ul>
+    </div>
+
+    <div id="content">
+    <?php $MediaBrowser->html(); ?>
+    <div>
+
+</body>
+</html>
