@@ -38,8 +38,7 @@
 //   - script location (default): dirname(__FILE__)
 //   - a few directories up: './../../'
 //   - a specific directory: 'some/directory/elsewhere'
-define('ROOT', './../../');
-// define('ROOT', dirname(__FILE__));
+define('ROOT', dirname(__FILE__));
 
 $_SETTINGS = array();
 $_SETTINGS['calcFolderSizes'] = false; // note: This is recursive! Be careful with large file trees.
