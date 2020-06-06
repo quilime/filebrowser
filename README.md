@@ -1,7 +1,5 @@
 ## Requirements
 
-
-
 ## MediaBrowser 
 
 - Tested with **PHP 7.2.30**
@@ -17,26 +15,12 @@
 
 ## DirectoryLister
 
-- Tested with **PHP 7.2.30**
+- Tested with PHP **7.2.30** and **7.4.6**
 - Classical text-only view with HTML table
 - Sortable by columns
 - List files and folders seperately
 - Single file for easy including
 - Easy to customize and instance
 - BSD license
-
-<img src="http://media.quilime.com/Directory-Lister.png" />
-
-
-## DirectoryLister-PHP_7.4
-
-- Tested with **PHP 7.4.6**
-- Classical text-only view with HTML table
-- Sortable by columns
-- List files and folders seperately
-- Single file for easy including
-- Easy to customize and instance
-- BSD license
-- Work in Progress
 
 <img src="http://media.quilime.com/Directory-Lister.png" />
