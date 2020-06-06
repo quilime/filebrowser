@@ -1,10 +1,10 @@
 # File/Folder Listing Scripts
 
-These scripts offer some handy features for browsing web folders. MediaBrowser automatically generates thumbs and displays README's -- useful for media servers or project servers. Directory Lister is classic table-based directory lister, allowing for sorting files and folders by name, type, and size.
+These scripts offer some handy features for browsing files/folders on a webserver.
 
 ## MediaBrowser 
 
-A index script that generates thumbnail gallery for images.
+A index script that generates thumbnail gallery for images and displays READMEs.
 
 - Tested with **PHP 7.2.30**
 - Generate thumbs and create gallery for images
