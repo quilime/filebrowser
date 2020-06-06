@@ -1,4 +1,6 @@
-## Requirements
+# File/Folder Listing Scripts
+
+These scripts offer some handy features for browsing web folders. MediaBrowser automatically generates thumbs and displays README's -- useful for media servers or project servers. Directory Lister is classic table-based directory lister, allowing for sorting files and folders by name, type, and size.
 
 ## MediaBrowser 
 
@@ -9,6 +11,7 @@ A index script that generates thumbnail gallery for images.
 - Preview audio files
 - Single file for easy including
 - Easy to customize
+- Display 'README' if present
 - BSD license
 
 <img src="http://media.quilime.com/Media-Browser.png" />
