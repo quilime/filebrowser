@@ -60,12 +60,6 @@ if (0) { // set to 1 to display errors
 // END USER CONFIGURABLE OPTIONS
 
 
-
-
-
-
-
-
 $_SORTMODE = (isset($_GET['N']) ? 'N' : 
              (isset($_GET['S']) ? 'S' : 
              (isset($_GET['T']) ? 'T' : 
@@ -75,6 +69,7 @@ $_PATH = isset($_GET['p']) ? $_GET['p'] : false;
 
 // verify path (don't allow ../'s)
 $_PATH = preg_match("/\.\.\//", $_PATH) ? false : $_PATH;
+
 
 function formatSize($bytes) {
   $formats = array("%d bytes", "%.1f kb", "%.1f mb", "%.1f gb", "%.1f tb");
@@ -265,6 +260,7 @@ function renderRow($type, $path = null, $rowcount = null, $file = null, $content
   return $row;
 }
 
+
 function sortFiles($filesArray) {
   global $_SETTINGS, $_SORTORDER;
 
@@ -289,6 +285,7 @@ function sortFiles($filesArray) {
   }
   return $result;
 }
+
 
 function orderByColumn($input, $type) {
   global $_SETTINGS, $_SORTMODE;
@@ -320,7 +317,9 @@ function orderByColumn($input, $type) {
   return $result;
 }
 
+
 $files = makeFileArray(ROOT . '/' . $_PATH);
+
 
 ?>
 <!DOCTYPE html>
