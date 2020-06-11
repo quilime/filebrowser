@@ -30,16 +30,10 @@
  * @source      https://github.com/quilime/filebrowser
  */
 
+namespace quilime\DirList {
+
 // START USER CONFIGURABLE OPTIONS
 // Edit these settings for your configuration
-
-// Folder to process. Default is root of current script (__FILE__).
-// examples;
-//   - script location (default): dirname(__FILE__)
-//   - a few directories up: './../../'
-//   - a specific directory: 'some/directory/elsewhere'
-define('ROOT', dirname(__FILE__));
-
 $_SETTINGS = array();
 $_SETTINGS['calcFolderSizes'] = false; // note: This is recursive! Be careful with large file trees.
 $_SETTINGS['showLineNumbers'] = true; // hide/show line numbers
@@ -50,26 +44,19 @@ $_SETTINGS['dateFormat'] = 'F d, Y g:i A'; // modification date formate
 $_SETTINGS['naturalSort'] = true; // Ignore case when sorting (default: true)
 $_SETTINGS['separateFolders'] = true; // seperate folders in sort (true = folders on top)
 $_SETTINGS['ignoreDotfiles'] = true; // ignore dotfiles (hidden files) and folders like '.DS_Store' or '.git/'
-
-if (0) { // set to 1 to display errors
-  ini_set('display_errors', 1);
-  ini_set('display_startup_errors', 1);
-  error_reporting(E_ALL);
-}
-
 // END USER CONFIGURABLE OPTIONS
-
 
 $_SORTMODE = (isset($_GET['N']) ? 'N' : 
              (isset($_GET['S']) ? 'S' : 
              (isset($_GET['T']) ? 'T' : 
              (isset($_GET['M']) ? 'M' : 'N'))));
 $_SORTORDER = isset($_GET[$_SORTMODE]) ? $_GET[$_SORTMODE] : 'A';
-$_PATH = isset($_GET['p']) ? $_GET['p'] : false;
 
-// verify path (don't allow ../'s)
-$_PATH = preg_match("/\.\.\//", $_PATH) ? false : $_PATH;
 
+function setting($key, $value) {
+  global $_SETTINGS;
+  $_SETTINGS[$key] = $value;
+}
 
 function formatSize($bytes) {
   $formats = array("%d bytes", "%.1f kb", "%.1f mb", "%.1f gb", "%.1f tb");
@@ -97,10 +84,13 @@ function makeFileArray($cwd) {
   global $_SETTINGS;
 
   $folderArray = array();
-  $foldersIter = new DirectoryIterator($cwd);
+  $foldersIter = new \DirectoryIterator($cwd);
   foreach ($foldersIter as $fileinfo) {
     if (!$fileinfo->isDot() && $fileinfo->isDir()) {
       if ($_SETTINGS['ignoreDotfiles'] && substr($fileinfo->getFilename(), 0, 1) == '.') {
+        continue;
+      }
+      if (in_array($fileinfo->getFilename(), $_SETTINGS['excludes'])) {
         continue;
       }
       $folderInfo = array();
@@ -114,12 +104,15 @@ function makeFileArray($cwd) {
   }
 
   $fileArray = array();
-  $filesIter = new DirectoryIterator($cwd);
+  $filesIter = new \DirectoryIterator($cwd);
   foreach ($filesIter as $fileinfo) {
     if ($fileinfo->isFile()) {
       if ($_SETTINGS['ignoreDotfiles'] && substr($fileinfo->getFilename(), 0, 1) == '.') {
         continue;
       }
+      if (in_array($fileinfo->getFilename(), $_SETTINGS['excludes'])) {
+        continue;
+      }      
       $fileInfo = array();
       $fileInfo['name'] = $fileinfo->getFilename();
       $fileInfo['mtime'] = $fileinfo->getMTime();
@@ -137,9 +130,26 @@ function makeFileArray($cwd) {
   return $res;
 }
 
+function getPath() {
+  $p = isset($_GET['p']) ? $_GET['p'] : false;
+  // verify path (don't allow ../'s)
+  return preg_match("/\.\.\//", $_PATH) ? false : $p;
+}
 
-function renderFileList($cwd, $files) {
+function renderFileList($root = null) {
+
   global $_SETTINGS;
+
+  $cwd = getPath();
+  $root = $root == null ? dirname(__FILE__) : $root;
+  $path = $root . '/' . $cwd;
+
+  if (file_exists($path)) {
+    $files = makeFileArray($path);
+  } else {
+    echo "Invalid Path";
+    exit;
+  }
 
   $totalFolders = sizeof($files['folders']);
   $totalFiles = sizeof($files['files']);
@@ -177,7 +187,7 @@ function renderFileList($cwd, $files) {
 
   // parent directory row (if inside a path)
   if ($cwd)
-    echo renderRow('parent', $cwd);
+    echo renderRow('parent', $root, $cwd);
 
   $rowcount = 1; 
 
@@ -186,7 +196,7 @@ function renderFileList($cwd, $files) {
 
   // rows of files
   foreach ($sortedFiles as $file) {
-    echo renderRow($file['rowType'], $cwd, $rowcount, $file);
+    echo renderRow($file['rowType'], $root, $cwd, $rowcount, $file);
     $rowcount++;
     $totalSize += $file['size'];
   }
@@ -198,7 +208,7 @@ function renderFileList($cwd, $files) {
 }
 
 
-function renderRow($type, $path = null, $rowcount = null, $file = null, $content = null) {
+function renderRow($type, $root, $path = null, $rowcount = null, $file = null, $content = null) {
   global $_SETTINGS, $_SORTMODE, $_SORTORDER;
 
   $rnum = $rowcount ? ($rowcount % 2 == 0 ? 'r2' : 'r1') : '';  // alternating row styles
@@ -214,7 +224,7 @@ function renderRow($type, $path = null, $rowcount = null, $file = null, $content
       if ($type == 'fr' && !$_SETTINGS['calcFolderSizes']) $fsize = '-'; // replace '0' with '-' for folders unless calculating size
       $row .= $_SETTINGS['showLineNumbers'] ? '<td class="ln">' . $rowcount . '</td>' : '';
       $row .= '<td class="nm">';
-      $row .= sprintf('<a href="%s">%s</a></td>', $type == 'fr' ? '?p=' . $path . $file['name'] . '/' : ROOT . $path . $file['name'], $file['name']);
+      $row .= sprintf('<a href="%s">%s</a></td>', $type == 'fr' ? '?p=' . $path . $file['name'] . '/' : $root . $path . $file['name'], $file['name']);
       $row .= $_SETTINGS['showFileSize'] ? sprintf('<td class="sz">%s</td>', $fsize) : '';
       $row .= $_SETTINGS['showFileType'] ? sprintf('<td class="tp">%s</td>',  $file['type']) : ''; 
       $row .= $_SETTINGS['showFileModDate'] ? sprintf('<td class="dt">%s</td>', date($_SETTINGS['dateFormat'], $file['mtime'])) : '';
@@ -316,110 +326,5 @@ function orderByColumn($input, $type) {
   }
   return $result;
 }
-
-
-$files = makeFileArray(ROOT . '/' . $_PATH);
-
-
+} // END quilime\DirList
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-<style type="text/css">
-
-#DirectoryLister {
-  font-family:sans-serif;
-}
-/* File Browser Table */
-#DirectoryLister table {
-  width:100%;
-}
-/* rows */
-#DirectoryLister table tr td {
-  padding:1px;
-  font-size:12px;
-}
-#DirectoryLister a {
-  text-decoration:none;
-}
-#DirectoryLister a:hover {
-  text-decoration:underline;
-}
-/* rows */
-#DirectoryLister table tr.fr td, #DirectoryLister table tr.fl td {
-  border-top:1px solid #fff;
-  border-bottom:1px solid #ddd;
-}
-/* folder row */
-#DirectoryLister table tr.fr td.nm {
-  font-weight:bold;
-}
-/* parent row */
-#DirectoryLister table tr.parent {
-  font-weight:bold;
-}
-#DirectoryLister table tr.parent td {
-  border-bottom:1px solid #ccc;
-  background:#efefd3;
-}
-/* header */
-#DirectoryLister div.header {
-  margin-bottom:10px;
-  font-size:12px;
-}
-#DirectoryLister div.header .breadcrumbs {
-  font-size:24px;
-}
-/* sorting row */
-#DirectoryLister tr.sort td {
-}
-/* Columns */
-/* line number */
-#DirectoryLister table tr td.ln {
-  border-left:1px solid #ccc;
-  font-weight:normal;
-  text-align:right;
-  padding:0 10px 0 10px;
-  width:10px;
-  color: #999;
-}
-/* date */
-#DirectoryLister table tr td.dt {
-  border-right:1px solid #ccc;
-}
-/* footer row */
-#DirectoryLister table tr.footer td {
-  border:0;
-  font-weight:bold;
-}
-/* sort row */
-#DirectoryLister table tr.sort td {
-  border:0;
-  border-bottom:1px solid #ccc;
-}
-/* alternating Row Colors */
-/* folders */
-tr.fr.r1 {
-  background-color:#eee;
-}
-tr.fr.r2 {
-}
-/* files */
-tr.r1 {
-  background-color:#eee;
-}
- tr.r2 {
-}
-
-</style>  
-</head>
-<body>
-
-  <div id="DirectoryLister">
-<?php
-  renderFileList($_PATH, $files);
-?>
-  </div>
-
-</body>
-</html>

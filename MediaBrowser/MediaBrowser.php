@@ -394,29 +394,4 @@ $MediaBrowser = new MediaBrowser( array (
 ));
 
 $MediaBrowser->parent_dir = true;
-
 ?>
-
-<html>
-<head>
-<link rel="StyleSheet" href="style.css" TYPE="text/css" />
-<title><?=$MediaBrowser->title;?>/<?=$MediaBrowser->p; ?></title>
-
-</head>
-<body>
-
-    <div id="nav">
-        <div id="logo">
-        <?php echo $MediaBrowser->logo; ?>
-        </div>
-        <ul id="breadcrumbs">
-        <?php echo $MediaBrowser->breadcrumbs; ?>
-        </ul>
-    </div>
-
-    <div id="content">
-    <?php $MediaBrowser->html(); ?>
-    <div>
-
-</body>
-</html>
