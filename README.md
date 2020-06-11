@@ -2,19 +2,7 @@
 
 These scripts offer some handy features for browsing files/folders on a webserver.
 
-## MediaBrowser 
-
-A index script that generates thumbnail gallery for images and displays READMEs.
-
-- Tested with **PHP 7.2.30**
-- Generate thumbs and create gallery for images
-- Preview audio files
-- Single file for easy including
-- Easy to customize
-- Display 'README' if present
-- BSD license
-
-<img src="http://media.quilime.com/Media-Browser.png" />
+Check the examples/ folder for ideas for how to use.
 
 ## DirectoryLister
 
@@ -38,5 +26,21 @@ Options:
 - Show file type (based on extension)
 - Show file modified date
 - Natural sort file tree (ignore case)
+- File and Folder Excludes
 
 <img src="http://media.quilime.com/Directory-Lister.png" />
+
+
+## MediaBrowser 
+
+A index script that generates thumbnail gallery for images and displays READMEs. This is an experiment and WIP.
+
+- Tested with **PHP 7.2.30**
+- Generate thumbs and create gallery for images
+- Preview audio files
+- Single file for easy including
+- Easy to customize
+- Display 'README' if present
+- BSD license
+
+<img src="http://media.quilime.com/Media-Browser.png" />
