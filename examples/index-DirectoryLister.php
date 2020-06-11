@@ -108,7 +108,7 @@ tr.r1 {
 \quilime\DirList\setting('naturalSort', true); // Ignore case when sorting (default: true)
 \quilime\DirList\setting('separateFolders', true); // seperate folders in sort (true = folders on top)
 \quilime\DirList\setting('ignoreDotfiles', true); // ignore dotfiles (hidden files) and folders like '.DS_Store' or '.git/'
-\quilime\DirList\setting('excludes', [basename(__FILE__), 'DirectoryLister.php']); // ignore files array
+\quilime\DirList\setting('excludes', [basename(__FILE__), 'DirectoryLister.php']); // ignore files and folders
 
 // Folder to Process
 // examples;
