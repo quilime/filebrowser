@@ -44,6 +44,7 @@ $_SETTINGS['dateFormat'] = 'F d, Y g:i A'; // modification date formate
 $_SETTINGS['naturalSort'] = true; // Ignore case when sorting (default: true)
 $_SETTINGS['separateFolders'] = true; // seperate folders in sort (true = folders on top)
 $_SETTINGS['ignoreDotfiles'] = true; // ignore dotfiles (hidden files) and folders like '.DS_Store' or '.git/'
+$_SETTINGS('excludes', []); // ignore files and folders
 // END USER CONFIGURABLE OPTIONS
 
 $_SORTMODE = (isset($_GET['N']) ? 'N' : 
